@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj": {}
+    "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj": {
+    "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
+        "projectUniqueName": "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
         "projectName": "NewProject_RealizedSale",
-        "projectPath": "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
+        "projectPath": "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
         "packagesPath": "C:\\Users\\Acer\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\obj\\",
+        "outputPath": "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

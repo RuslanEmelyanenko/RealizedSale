@@ -1,6 +1,6 @@
 ﻿namespace NewProject_RealizedSale.Dtos.BaseDtos
 {
-    public class BaseFromMemorySizeDto
+    public class MemorySizeDto
     {
         public int MemorySizeId { get; set; }
         public int MemorySize { get; set; }

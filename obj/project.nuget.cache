@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "OPhYRrg05oL0Hv0fEWoVORlRkRd0j9OsTp53i93fVbfIqo4Z8C/dRJsPsQWHEe2dvik3q9M81kY7vPmH2WTA7g==",
+  "dgSpecHash": "J+ZIvK2TnF3gQfYkNWtjd1Y2efdRW0Pnz35spQPSjnzQ3JNKwdD4YXhMYpUdT00QCn+mjKL+UvVkKD2n1gdNgg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Acer\\Desktop\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
+  "projectFilePath": "D:\\Курсы IT\\3_GitHub_Repositoruy\\NewProject_RealizedSale\\NewProject_RealizedSale\\NewProject_RealizedSale.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Acer\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\Acer\\.nuget\\packages\\microsoft.csharp\\4.7.0\\microsoft.csharp.4.7.0.nupkg.sha512",

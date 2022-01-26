@@ -2,8 +2,7 @@
 
 namespace NewProject_RealizedSale.Dtos.CreateUpdate
 {
-    public class DeviceUpdateDto : BaseFromDeviceDto
+    public class UpdateCustomerDto : CustomerDto
     {
-        public int Id { get; set; }
     }
 }

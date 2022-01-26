@@ -6,8 +6,7 @@ using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public abstract class BaseRepository<T> : IBaseRepository<T> 
-        where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     { 
         protected DbSet<T> Entities { get; set; }
         protected SaleContext DbContext { get; set; }
@@ -18,7 +17,7 @@ namespace NewProject_RealizedSale.Repositories
             Entities = dbContext.Set<T>();
         }
 
-        public T Get(int id) 
+        public T Get(int id)
         {
             return Entities.Find(id);
         }
@@ -33,9 +32,9 @@ namespace NewProject_RealizedSale.Repositories
             Entities.Add(entity);
         }
 
-        public void CreateList(IList<T> entities)
+        public void Update(T entity)
         {
-            Entities.AddRange(entities);
+            DbContext.Update(entity); 
         }
 
         public void Delete(T entity)
@@ -43,14 +42,9 @@ namespace NewProject_RealizedSale.Repositories
             Entities.Remove(entity);
         }
 
-        public void Complete()
+        public void Save()
         {
             DbContext.SaveChanges();
-        }
-
-        public void Update(T entity)
-        {
-            DbContext.Update(entity);
         }
     }
 }

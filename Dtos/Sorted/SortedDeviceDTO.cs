@@ -2,7 +2,7 @@
 
 namespace NewProject_RealizedSale.DTOs
 {
-    public class SortedDeviceDTO : BaseFromDeviceDto
+    public class SortedDeviceDTO : DeviceDto
     {
     }
 }

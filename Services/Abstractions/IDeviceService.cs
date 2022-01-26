@@ -4,9 +4,9 @@ using NewProject_RealizedSale.Dtos.DropdownDto;
 
 namespace NewProject_RealizedSale.Services.Abstractions
 {
-    interface IDeviceService
+    public interface IDeviceService
     {
-        IList<SortedDeviceDTO> GetSortedDevices(string sortBy);
+        IList<SortedDeviceDTO> GetSorted(string sortBy);
         IList<DeviceDropdownDto> GetDeviceDropdown();
     }
 }

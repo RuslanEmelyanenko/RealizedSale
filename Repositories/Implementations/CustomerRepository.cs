@@ -13,11 +13,11 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public Customer GetByCustomerNameAndSurname(string name, string surname)
+        public Customer GetCustomerByNameAndSurname(string name, string surname)
         {
-            var customer = DbContext.Customers.Where(cn => cn.Name == name).OrderBy(cs => cs.Surname == surname);
+            var customer = _dbContext.Customers.FirstOrDefault(cn => cn.Name == name && cn.Surname == surname);
 
-            return (Customer)customer;
+            return customer;
         }
     }
 }

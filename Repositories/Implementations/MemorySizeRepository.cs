@@ -15,7 +15,7 @@ namespace NewProject_RealizedSale.Repositories
 
         public MemorySize GetByMemorySize(int memorySize)
         {
-            var memory = DbContext.Memory.FirstOrDefault(m => m.MemorySizeDevice == memorySize);
+            var memory = _dbContext.Memory.FirstOrDefault(m => m.MemorySizeDevice == memorySize);
 
             return memory;
         }

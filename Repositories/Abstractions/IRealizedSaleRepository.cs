@@ -3,8 +3,8 @@ using NewProject_RealizedSale.Models;
 
 namespace NewProject_RealizedSale.Repositories.Abstractions
 {
-    public interface IDeviceRepository : IBaseRepository<Device>
+    public interface IRealizedSaleRepository : IBaseRepository<RealizedSale>
     {
-        IList<Device> GetAllDevices();
+        IList<RealizedSale> GetAllRealizedSales();
     }
 }

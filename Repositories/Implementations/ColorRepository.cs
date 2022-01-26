@@ -15,7 +15,7 @@ namespace NewProject_RealizedSale.Repositories
 
         public Color GetByColorName(string colorDevice)
         {
-            var color = DbContext.Colors.FirstOrDefault(c => c.ColorDevice == colorDevice);
+            var color = _dbContext.Colors.FirstOrDefault(c => c.ColorDevice == colorDevice);
 
             return color;
         }
