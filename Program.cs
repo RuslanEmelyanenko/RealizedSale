@@ -142,6 +142,21 @@ namespace NewProject_RealizedSale
 
             //deviceService.DeleteDevice("iPhone SE");  // Метод работает!!!
 
+            var realizedSale = new RealizedSaleDto()
+            {
+                Amount = 1,
+                CustomerName = "Rustam",
+                CustomerSurname = "Nurlanov",
+                CustomerPhoneNumber = "+375 17 0000000",
+                Date = "2021.12.24",
+                Device = "iphone XR"
+            };
+
+            realizedSaleService.CreateRealizedSale(realizedSale);
+
+            //realizedSaleService.DeleteRealizedSale("2021.12.24");
+
+
             //Сортировка девайсов
             var sortedDevices = deviceService.GetSorted("model"); // Метод работает!!!
 

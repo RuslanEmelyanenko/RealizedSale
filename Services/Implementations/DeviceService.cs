@@ -114,7 +114,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             var device = _deviceRepository.Get(updateDevice.Id);
 
-            if (color.ColorDevice == null)
+            if (color == null)
             {
                 color = new Color
                 {
@@ -122,7 +122,7 @@ namespace NewProject_RealizedSale.Services.Implementations
                 };
             }
 
-            if (memorySize.MemorySizeDevice == 0)
+            if (memorySize == null)
             {
                 memorySize = new MemorySize
                 {
@@ -130,7 +130,7 @@ namespace NewProject_RealizedSale.Services.Implementations
                 };
             }
 
-            if (deviceType.Type == null)
+            if (deviceType == null)
             {
                 deviceType = new DeviceType
                 {

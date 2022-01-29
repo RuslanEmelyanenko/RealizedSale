@@ -21,7 +21,7 @@ namespace NewProject_RealizedSale.Services.Implementations
             _customerRepository = customerRepository;
         }
 
-        public RealizedSaleDto GetByRealizedSale(string date)
+        public RealizedSaleDto GetRealizedSaleByDate(string date)
         {
             var realizedSale = _realizedSaleRepository.GetByRealizedSale(date);
 
@@ -29,7 +29,9 @@ namespace NewProject_RealizedSale.Services.Implementations
             {
                 Id = realizedSale.Id,
                 Amount = realizedSale.Amount,
-                Customer = realizedSale.Customer.Name,
+                CustomerName = realizedSale.Customer.Name,
+                CustomerSurname = realizedSale.Customer.Surname,
+                CustomerPhoneNumber = realizedSale.Customer.PhoneNumber,
                 Date = realizedSale.Date,
                 Device = realizedSale.Device.Model,
                 TotalSum = realizedSale.TotalSum
@@ -49,7 +51,9 @@ namespace NewProject_RealizedSale.Services.Implementations
                 var realizedSaleDto = new RealizedSaleDto
                 {
                     Amount = sale.Amount,
-                    Customer = sale.Customer,
+                    CustomerName = sale.CustomerName,
+                    CustomerSurname = sale.CustomerSurname,
+                    CustomerPhoneNumber = sale.CustomerPhoneNumber,
                     Date = sale.Date,
                     Device = sale.Device,
                     TotalSum = sale.TotalSum
@@ -63,16 +67,16 @@ namespace NewProject_RealizedSale.Services.Implementations
 
         public void CreateRealizedSale(RealizedSaleDto createRealizedSale)
         {
-            var customer = _customerRepository.GetCustomerByNameAndSurname(createRealizedSale.Customer, createRealizedSale.Customer);
+            var customer = _customerRepository.GetCustomerByNameAndSurname(createRealizedSale.CustomerName, createRealizedSale.CustomerSurname);
             var device = _deviceRepository.GetDevice(createRealizedSale.Device);
 
-            if (customer == null) // Вот здесь у меня вопрос: правильно ли реализована проверка на наличие объекта CUSTOMER
+            if (customer == null)
             {
                 customer = new Customer
                 {
-                    Name = createRealizedSale.Customer,
-                    Surname = createRealizedSale.Customer,
-                    PhoneNumber = createRealizedSale.Customer
+                    Name = createRealizedSale.CustomerName,
+                    Surname = createRealizedSale.CustomerSurname,
+                    PhoneNumber = createRealizedSale.CustomerPhoneNumber
                 };
             }
 
