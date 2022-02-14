@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using NewProject_RealizedSale.Dtos;
 using NewProject_RealizedSale.Dtos.BaseDtos;
 using NewProject_RealizedSale.Models;
 using NewProject_RealizedSale.Repositories;
@@ -33,7 +35,7 @@ namespace NewProject_RealizedSale.Services.Implementations
                 CustomerSurname = realizedSale.Customer.Surname,
                 CustomerPhoneNumber = realizedSale.Customer.PhoneNumber,
                 Date = realizedSale.Date,
-                Device = realizedSale.Device.Model,
+                DeviceModel = realizedSale.Device.Model,
                 TotalSum = realizedSale.TotalSum
             };
 
@@ -42,33 +44,33 @@ namespace NewProject_RealizedSale.Services.Implementations
 
         public IList<RealizedSaleDto> GetAllSales()
         {
-            var realizedSale = _realizedSaleRepository.GetAllRealizedSale();
+            var realizedSales = _realizedSaleRepository.GetAllRealizedSale();
 
-            var sales = new List<RealizedSaleDto>();
+            var realizedSaleDto = new List<RealizedSaleDto>();
 
-            foreach (var sale in sales)
+            foreach (var sale in realizedSales)
             {
-                var realizedSaleDto = new RealizedSaleDto
+                var realizedSaleItem = new RealizedSaleDto
                 {
                     Amount = sale.Amount,
-                    CustomerName = sale.CustomerName,
-                    CustomerSurname = sale.CustomerSurname,
-                    CustomerPhoneNumber = sale.CustomerPhoneNumber,
+                    CustomerName = sale.Customer.Name,
+                    CustomerSurname = sale.Customer.Surname,
+                    CustomerPhoneNumber = sale.Customer.PhoneNumber,
                     Date = sale.Date,
-                    Device = sale.Device,
+                    DeviceModel = sale.Device.Model,
                     TotalSum = sale.TotalSum
                 };
 
-                sales.Add(realizedSaleDto);
+                realizedSaleDto.Add(realizedSaleItem);
             }
 
-            return sales;
+            return realizedSaleDto;
         }
 
         public void CreateRealizedSale(RealizedSaleDto createRealizedSale)
         {
             var customer = _customerRepository.GetCustomerByNameAndSurname(createRealizedSale.CustomerName, createRealizedSale.CustomerSurname);
-            var device = _deviceRepository.GetDevice(createRealizedSale.Device);
+            var device = _deviceRepository.GetDevice(createRealizedSale.DeviceModel);
 
             if (customer == null)
             {
@@ -104,6 +106,22 @@ namespace NewProject_RealizedSale.Services.Implementations
 
                 _realizedSaleRepository.Save();
             }
+        }
+
+        public IList<CounterOfPurchasedDevicesDto> GetNumberOfDevicesSoldByModel()
+        {
+            var countRealizedSaleDevises = _realizedSaleRepository.GetAllRealizedSale();
+
+            var grupByModelRealizedSale = countRealizedSaleDevises
+                .GroupBy(r => r.Device.Model)
+                .Select(g => new CounterOfPurchasedDevicesDto()
+                {
+                    Model = g.Key,
+                    CounterOfPurchasedDevices = g.Count()
+                })
+                .ToList();
+
+            return grupByModelRealizedSale;
         }
     }
 }

@@ -22,6 +22,18 @@ namespace NewProject_RealizedSale.Repositories
             return sale;
         }
 
+        public List<RealizedSale> GetNumberOfDevicesSoldByModel()
+        {
+            var countSale = _dbContext.RealizedSales.GroupBy(r => r.Device.DeviceType.Type)
+                .Select(g => new
+                {
+                    Model = g.Key,
+                    CountDevice = g.Count()
+                });
+
+            return (List<RealizedSale>)countSale;
+        }
+
         public IList<RealizedSale> GetAllRealizedSale()
         {
             var realizedSale = _dbContext.RealizedSales
@@ -31,5 +43,6 @@ namespace NewProject_RealizedSale.Repositories
 
             return realizedSale;
         }
+
     }
 }

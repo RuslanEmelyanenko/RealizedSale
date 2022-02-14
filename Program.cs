@@ -16,12 +16,12 @@ namespace NewProject_RealizedSale
             var colorRepository = new ColorRepository(dbContext);
             var memorySizeRepository = new MemorySizeRepository(dbContext);
             var deviceTypeRepository = new DeviceTypeRepository(dbContext);
-            var customerRepository = new CustomerRepository(dbContext);
 
             var deviceRepository = new DeviceRepository(dbContext);
             var deviceService = new DeviceService(deviceRepository, colorRepository, memorySizeRepository, deviceTypeRepository);
 
-            //var customerService = new CustomerService(customerRepository); // - Так как Customer создается через продажу девайса, эта запись будет лишней
+            var customerRepository = new CustomerRepository(dbContext);
+            var customerService = new CustomerService(customerRepository); 
 
             var realizedSaleRepository = new RealizedSaleRepository(dbContext);
             var realizedSaleService = new RealizedSalesService(realizedSaleRepository, deviceRepository, customerRepository);
@@ -108,9 +108,11 @@ namespace NewProject_RealizedSale
             {
                 //deviceService.CreateDevice(iPhone);
             }
-                                                // Создание покупателя здесь нужно убрать. 
-                                                // Customer создается через продажи (так как цвет, память, тип у device)
-                                                // Cestomers можно удалить
+             //
+             // 
+            deviceService.AddRangeDevices(iPhones);
+             //
+             //
             var customer1 = new CustomerDto
             {
                 Name = "Ruslan",
@@ -142,31 +144,108 @@ namespace NewProject_RealizedSale
 
             //deviceService.DeleteDevice("iPhone SE");  // Метод работает!!!
 
-            var realizedSale = new RealizedSaleDto()
+            var realizedSale = new RealizedSaleDto
             {
                 Amount = 1,
                 CustomerName = "Rustam",
                 CustomerSurname = "Nurlanov",
                 CustomerPhoneNumber = "+375 17 0000000",
                 Date = "2021.12.24",
-                Device = "iphone XR"
+                DeviceModel = "iphone XR"
+            };
+            var realisedSale2 = new RealizedSaleDto
+            {
+                Amount = 1,
+                CustomerName = "Svetlana",
+                CustomerSurname = "Smirnova",
+                CustomerPhoneNumber = "+375 17 1005025",
+                Date = "2021.12.12",
+                DeviceModel = "iphone 11"
+            };
+            var realisedSale3 = new RealizedSaleDto
+            {
+                Amount = 1,
+                CustomerName = "Sofa",
+                CustomerSurname = "Costochka",
+                CustomerPhoneNumber = "+375 20 1923210",
+                Date = "2021.02.13",
+                DeviceModel = "iphone 11"
+            };
+            var realisedSale4 = new RealizedSaleDto
+            {
+                Amount = 1,
+                CustomerName = "Daniel",
+                CustomerSurname = "Scot",
+                CustomerPhoneNumber = "+341 232 1923210",
+                Date = "2021.02.23",
+                DeviceModel = "iphone XR"
+            };
+            var realisedSale5 = new RealizedSaleDto
+            {
+                Amount = 1,
+                CustomerName = "Vladimir",
+                CustomerSurname = "Lobanov",
+                CustomerPhoneNumber = "+375 17 9212310",
+                Date = "2021.02.15",
+                DeviceModel = "iphone 12 mini"
             };
 
-            realizedSaleService.CreateRealizedSale(realizedSale);
+            var sales = new List<RealizedSaleDto>
+            {
+                realizedSale, realisedSale2, realisedSale3, realisedSale4, realisedSale5
+            };
+
+            foreach (var sale in sales)
+            {
+                //realizedSaleService.CreateRealizedSale(sale);
+            }
 
             //realizedSaleService.DeleteRealizedSale("2021.12.24");
 
+            var devices = deviceService.GetAllDevices();
 
-            //Сортировка девайсов
-            var sortedDevices = deviceService.GetSorted("model"); // Метод работает!!!
-
-            Console.WriteLine("\nОтсортированный список девайсов: \n");
-            foreach (var device in sortedDevices)
+            Console.WriteLine($"\nType/ Model/ Color/ Size/ Price\n ");
+            foreach (var device in devices)
             {
-                Console.WriteLine(device.Model + " " + " Color: " + device.Color + " " +
-                                  " Memory size: " + device.MemorySize + "Gb " +
-                                  " Cost: " + device.Price + " BYN");
+                Console.WriteLine(device.DeviceType + " " +
+                                  device.Model + " " +
+                                  device.Color + " " +
+                                  device.MemorySize + " " +
+                                  device.Price);
             }
+
+            var realizedSales = realizedSaleService.GetAllSales();
+
+            Console.WriteLine($"\nДата продажи/ Данные покупателя/ модель устройства/ кол-во\n");
+            foreach (var sale in realizedSales)
+            {
+                Console.WriteLine(sale.Date + " " +
+                                  sale.CustomerName + " " +
+                                  sale.CustomerSurname + " " +
+                                  sale.CustomerPhoneNumber + " " +
+                                  sale.DeviceModel + " " +
+                                  sale.Amount);
+            }
+
+            var countRealizedSales = realizedSaleService.GetNumberOfDevicesSoldByModel();
+
+            Console.WriteLine("");
+            foreach (var item in countRealizedSales)
+            {
+                //Console.WriteLine(item.Model + " " + item.CounterOfPurchasedDevices);
+                Console.WriteLine($"{item.Model} - {item.CounterOfPurchasedDevices} человк(а) преобрели данный девайс");
+            }
+
+            ////Сортировка девайсов
+            //var sortedDevices = deviceService.GetSorted("model"); // Метод работает!!!
+
+            //Console.WriteLine("\nОтсортированный список девайсов: \n");
+            //foreach (var device in sortedDevices)
+            //{
+            //    Console.WriteLine(device.Model + " " + " Color: " + device.Color + " " +
+            //                      " Memory size: " + device.MemorySize + "Gb " +
+            //                      " Cost: " + device.Price + " BYN");
+            //}
 
             ////Сортировка покупателей
             //var sortedCustomers = customerService.GetSorted("name"); // Метод работает!!!

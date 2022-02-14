@@ -1,5 +1,6 @@
 ﻿using NewProject_RealizedSale.DTOs;
 using System.Collections.Generic;
+using NewProject_RealizedSale.Dtos.BaseDtos;
 using NewProject_RealizedSale.Dtos.DropdownDto;
 
 namespace NewProject_RealizedSale.Services.Abstractions
@@ -8,5 +9,6 @@ namespace NewProject_RealizedSale.Services.Abstractions
     {
         IList<SortedDeviceDTO> GetSorted(string sortBy);
         IList<DeviceDropdownDto> GetDeviceDropdown();
+        IList<DeviceDto> GetAllDevices();
     }
 }

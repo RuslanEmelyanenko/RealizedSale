@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NewProject_RealizedSale.DTOs;
 using NewProject_RealizedSale.Dtos.BaseDtos;
 using NewProject_RealizedSale.Dtos.CreateUpdate;
 using NewProject_RealizedSale.Dtos.DropdownDto;
+using NewProject_RealizedSale.EqualityComparer;
 using NewProject_RealizedSale.Models;
 using NewProject_RealizedSale.Repositories;
 using NewProject_RealizedSale.Services.Abstractions;
@@ -17,7 +19,8 @@ namespace NewProject_RealizedSale.Services.Implementations
         private readonly MemorySizeRepository _memorySizeRepository;
         private readonly DeviceTypeRepository _deviceTypeRepository;
 
-        public DeviceService(DeviceRepository deviceRepository, ColorRepository colorRepository, MemorySizeRepository memorySizeRepository, DeviceTypeRepository deviceTypeRepository)
+        public DeviceService(DeviceRepository deviceRepository, ColorRepository colorRepository,
+            MemorySizeRepository memorySizeRepository, DeviceTypeRepository deviceTypeRepository)
         {
             _deviceRepository = deviceRepository;
             _colorRepository = colorRepository;
@@ -62,7 +65,30 @@ namespace NewProject_RealizedSale.Services.Implementations
             return deviceDto;
         }
 
-        public void CreateDevice(DeviceDto createDevice)  // Create object.
+        public IList<DeviceDto> GetAllDevices() // Get All Devices (Method Read)
+        {
+            var devices = _deviceRepository.GetAllDevices();
+            var deviceDto = new List<DeviceDto>();
+
+            foreach (var device in devices)
+            {
+                var deviceItem = new DeviceDto
+                {
+                    Id = device.Id,
+                    Model = device.Model,
+                    Price = device.Price,
+                    Color = device.Color.ColorDevice,
+                    MemorySize = device.MemorySize.MemorySizeDevice,
+                    DeviceType = device.DeviceType.Type
+                };
+
+                deviceDto.Add(deviceItem);
+            }
+
+            return deviceDto;
+        }
+
+        public void CreateDevice(DeviceDto createDevice) // Create object.
         {
             var color = _colorRepository.GetByColorName(createDevice.Color);
             var memorySize = _memorySizeRepository.GetByMemorySize(createDevice.MemorySize);
@@ -162,7 +188,7 @@ namespace NewProject_RealizedSale.Services.Implementations
         public IList<SortedDeviceDTO> GetSorted(string sortBy) // Sorting devices by: model, price and memory size.
         {
             var devices = _deviceRepository.GetAllDevices();
-  
+
             var unsortedDevices = new List<SortedDeviceDTO>();
 
             foreach (var device in devices)
@@ -199,6 +225,73 @@ namespace NewProject_RealizedSale.Services.Implementations
             }
 
             return unsortedDevices;
+        }
+
+        public void AddRangeDevices(IList<DeviceDto> deviceDtos)
+        {
+            var devices = _deviceRepository.GetAllDevices();
+
+            var newDevices = CreateDevices(deviceDtos, new UpdateDto());
+
+            newDevices = newDevices.Except(devices, new DeviceEqualityComparer()).ToList();
+
+            foreach (var item in newDevices)
+            {
+                _deviceRepository.Create(item);
+            }
+
+           // _deviceRepository.Save();
+        }
+
+        private IList<Device> CreateDevices(IList<DeviceDto> deviceDtos, UpdateDto updateDevice)
+        {
+            var devices = new List<Device>();
+
+            foreach (var deviceDto in deviceDtos)
+            {
+                var deviceType = _deviceTypeRepository.GetByDeviceType(updateDevice.DeviceType);
+                var memorySize = _memorySizeRepository.GetByMemorySize(updateDevice.MemorySize);
+                var color = _colorRepository.GetByColorName(updateDevice.Color);
+
+                var deviceUpdate = _deviceRepository.Get(updateDevice.Id);
+
+                if (color == null)
+                {
+                    color = new Color
+                    {
+                        ColorDevice = updateDevice.Color
+                    };
+                }
+
+                if (memorySize == null)
+                {
+                    memorySize = new MemorySize
+                    {
+                        MemorySizeDevice = updateDevice.MemorySize
+                    };
+                }
+
+                if (deviceType == null)
+                {
+                    deviceType = new DeviceType
+                    {
+                        Type = updateDevice.DeviceType
+                    };
+                }
+
+                var device = new Device
+                {
+                    DeviceType = deviceType,
+                    Model = deviceDto.Model,
+                    Color = color,
+                    MemorySize = memorySize,
+                    Price = deviceDto.Price
+                };
+
+                devices.Add(device);
+            }
+
+            return devices;
         }
     }
 }
