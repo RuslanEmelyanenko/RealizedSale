@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NewProject_RealizedSale.Dtos;
 using NewProject_RealizedSale.Dtos.BaseDtos;
 using NewProject_RealizedSale.Models;
@@ -22,7 +23,7 @@ namespace NewProject_RealizedSale.Services.Implementations
             _deviceRepository = deviceRepository;
             _customerRepository = customerRepository;
         }
-
+        // 1 Method isn't async
         public RealizedSaleDto GetRealizedSaleByDate(string date)
         {
             var realizedSale = _realizedSaleRepository.GetByRealizedSale(date);
@@ -41,10 +42,10 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return realizedSaleDto;
         }
-
-        public IList<RealizedSaleDto> GetAllSales()
+        // 2 +
+        public async Task<IList<RealizedSaleDto>> GetAllSalesAsync()
         {
-            var realizedSales = _realizedSaleRepository.GetAllRealizedSale();
+            var realizedSales = await _realizedSaleRepository.GetAllRealizedSaleAsync();
 
             var realizedSaleDto = new List<RealizedSaleDto>();
 
@@ -66,7 +67,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return realizedSaleDto;
         }
-
+        // 3 Method isn't async
         public void CreateRealizedSale(RealizedSaleDto createRealizedSale)
         {
             var customer = _customerRepository.GetCustomerByNameAndSurname(createRealizedSale.CustomerName, createRealizedSale.CustomerSurname);
@@ -95,7 +96,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _realizedSaleRepository.Save();
         }
-
+        // 4 Method isn't async
         public void DeleteRealizedSale(string date)
         {
             var dateSale = _realizedSaleRepository.GetByRealizedSale(date);
@@ -107,10 +108,10 @@ namespace NewProject_RealizedSale.Services.Implementations
                 _realizedSaleRepository.Save();
             }
         }
-
-        public IList<CounterOfPurchasedDevicesDto> GetNumberOfDevicesSoldByModel()
+        // 5 +
+        public async Task<IList<CounterOfPurchasedDevicesDto>> GetNumberOfDevicesSoldByModel()
         {
-            var countRealizedSaleDevises = _realizedSaleRepository.GetAllRealizedSale();
+            var countRealizedSaleDevises = await _realizedSaleRepository.GetAllRealizedSaleAsync();
 
             var grupByModelRealizedSale = countRealizedSaleDevises
                 .GroupBy(r => r.Device.Model)

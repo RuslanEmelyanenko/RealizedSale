@@ -15,12 +15,11 @@ namespace NewProject_RealizedSale.EqualityComparer
             {
                 return false;
             }
-            else if (firstDevice.DeviceType == secondDevice.DeviceType 
+            else if (firstDevice.DeviceType.Type == secondDevice.DeviceType.Type
                      && firstDevice.Model == secondDevice.Model
-                     && firstDevice.Color == secondDevice.Color
-                     && firstDevice.MemorySize == secondDevice.MemorySize
-                     && firstDevice.Price == secondDevice.Price
-                     )
+                     && firstDevice.Color.ColorDevice == secondDevice.Color.ColorDevice
+                     && firstDevice.MemorySize.MemorySizeDevice == secondDevice.MemorySize.MemorySizeDevice
+                     && firstDevice.Price == secondDevice.Price)
             {
                 return true;
             }
@@ -32,9 +31,9 @@ namespace NewProject_RealizedSale.EqualityComparer
 
         public int GetHashCode(Device device)
         {
-            int hCode = device.DeviceType.GetHashCode()
+            int hCode = device.DeviceType.Type.GetHashCode()
                         ^ device.Model.GetHashCode()
-                        ^ device.Color.GetHashCode()
+                        ^ device.Color.ColorDevice.GetHashCode()
                         ^ device.MemorySize.MemorySizeDevice.GetHashCode()
                         ^ device.Price.GetHashCode();
             return hCode.GetHashCode();

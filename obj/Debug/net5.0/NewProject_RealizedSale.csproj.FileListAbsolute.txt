@@ -125,3 +125,4 @@ D:\Курсы IT\3_GitHub_Repositoruy\NewProject_RealizedSale\NewProject_Realize
 D:\Курсы IT\3_GitHub_Repositoruy\NewProject_RealizedSale\NewProject_RealizedSale\obj\Debug\net5.0\ref\NewProject_RealizedSale.dll
 D:\Курсы IT\3_GitHub_Repositoruy\NewProject_RealizedSale\NewProject_RealizedSale\obj\Debug\net5.0\NewProject_RealizedSale.pdb
 D:\Курсы IT\3_GitHub_Repositoruy\NewProject_RealizedSale\NewProject_RealizedSale\obj\Debug\net5.0\NewProject_RealizedSale.genruntimeconfig.cache
+D:\Курсы IT\3_GitHub_Repositoruy\NewProject_RealizedSale\NewProject_RealizedSale\obj\Debug\net5.0\NewProject_RealizedSale.csproj.CopyComplete

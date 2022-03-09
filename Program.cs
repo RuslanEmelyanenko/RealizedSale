@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewProject_RealizedSale.Dtos.BaseDtos;
 using NewProject_RealizedSale.Models;
 using NewProject_RealizedSale.Repositories;
@@ -9,7 +10,7 @@ namespace NewProject_RealizedSale
 {
     public class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             var dbContext = new SaleContext();
 
@@ -104,13 +105,15 @@ namespace NewProject_RealizedSale
                 phoneSe64, phoneSe128, phoneSe256, phone11_64, phone11_128, phoneXr64, phoneXr128, phone12mini128, phone12mini256
             };
 
+            deviceService.AddRangeDevicesAsync(iPhones);
+
             foreach (var iPhone in iPhones)
             {
                 //deviceService.CreateDevice(iPhone);
             }
-             //
-             // 
-            deviceService.AddRangeDevices(iPhones);
+
+
+            deviceService.AddRangeDevicesAsync(iPhones);
              //
              //
             var customer1 = new CustomerDto
@@ -202,7 +205,7 @@ namespace NewProject_RealizedSale
 
             //realizedSaleService.DeleteRealizedSale("2021.12.24");
 
-            var devices = deviceService.GetAllDevices();
+            var devices = await deviceService.GetAllDevicesAsync();
 
             Console.WriteLine($"\nType/ Model/ Color/ Size/ Price\n ");
             foreach (var device in devices)
@@ -210,11 +213,11 @@ namespace NewProject_RealizedSale
                 Console.WriteLine(device.DeviceType + " " +
                                   device.Model + " " +
                                   device.Color + " " +
-                                  device.MemorySize + " " +
-                                  device.Price);
+                                  device.MemorySize + " Gb" + " " +
+                                  device.Price + " BYN");
             }
 
-            var realizedSales = realizedSaleService.GetAllSales();
+            var realizedSales = await realizedSaleService.GetAllSalesAsync();
 
             Console.WriteLine($"\nДата продажи/ Данные покупателя/ модель устройства/ кол-во\n");
             foreach (var sale in realizedSales)
@@ -227,7 +230,7 @@ namespace NewProject_RealizedSale
                                   sale.Amount);
             }
 
-            var countRealizedSales = realizedSaleService.GetNumberOfDevicesSoldByModel();
+            var countRealizedSales = await realizedSaleService.GetNumberOfDevicesSoldByModel();
 
             Console.WriteLine("");
             foreach (var item in countRealizedSales)

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace NewProject_RealizedSale.Repositories.Abstractions
 {
@@ -6,6 +7,7 @@ namespace NewProject_RealizedSale.Repositories.Abstractions
     {
         T Get(int id);
         IList<T> GetAll();
+        Task<IList<T>> GetAllAsync();
         void Create(T entity);
         void Update(T entity);
         void Delete(T entity);

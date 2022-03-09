@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using NewProject_RealizedSale.Dtos.Sorted;
 
 namespace NewProject_RealizedSale.Services.Abstractions
 {
     public interface ICustomerService
     {
-        IList<SortedCustomerDTO> GetSorted(string sortBy);
+        Task<IList<SortedCustomerDTO>> GetSortedAsync(string sortBy);
     }
 }

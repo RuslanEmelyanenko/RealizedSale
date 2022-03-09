@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
 
@@ -34,12 +36,12 @@ namespace NewProject_RealizedSale.Repositories
             return (List<RealizedSale>)countSale;
         }
 
-        public IList<RealizedSale> GetAllRealizedSale()
+        public async Task<IList<RealizedSale>> GetAllRealizedSaleAsync()
         {
-            var realizedSale = _dbContext.RealizedSales
+            var realizedSale = await _dbContext.RealizedSales
                 .Include(r => r.Device)
                 .Include(r => r.Customer)
-                .ToList();
+                .ToListAsync();
 
             return realizedSale;
         }

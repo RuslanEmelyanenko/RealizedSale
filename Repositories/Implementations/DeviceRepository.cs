@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
 
@@ -22,13 +23,13 @@ namespace NewProject_RealizedSale.Repositories
             return device;
         }
 
-        public IList<Device> GetAllDevices()
+        public async Task<IList<Device>> GetAllDevicesAsync()
         {
-            var devices = _dbContext.Devices
+            var devices = await _dbContext.Devices
                 .Include(d => d.Color)
                 .Include(d => d.MemorySize)
                 .Include(d => d.DeviceType)
-                .ToList();
+                .ToListAsync();
 
             return devices;
         }
