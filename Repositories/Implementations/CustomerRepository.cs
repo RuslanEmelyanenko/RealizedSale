@@ -1,9 +1,12 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class CustomerRepository : BaseRepository<Customer>
+    public class CustomerRepository : BaseRepository<Customer>, ICustomerRepository
     {
         private readonly SaleContext _dbContext;
 
@@ -13,9 +16,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public Customer GetCustomerByNameAndSurname(string name, string surname)
+        public async Task<Customer> GetCustomerByNameAndSurnameAsync(string name, string surname)
         {
-            var customer = _dbContext.Customers.FirstOrDefault(cn => cn.Name == name && cn.Surname == surname);
+            var customer = await _dbContext.Customers.FirstOrDefaultAsync(cn => cn.Name == name && cn.Surname == surname);
 
             return customer;
         }

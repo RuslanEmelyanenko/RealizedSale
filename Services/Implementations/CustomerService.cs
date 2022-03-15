@@ -18,10 +18,10 @@ namespace NewProject_RealizedSale.Services.Implementations
         {
             _customerRepository = customerRepository;
         }
-        // 1 Method isn't async
-        public CustomerDto GetCustomerByNameAndSurname(string name, string surname)
+        
+        public async Task<CustomerDto> GetCustomerByNameAndSurnameAsync(string name, string surname)
         {
-            var customer = _customerRepository.GetCustomerByNameAndSurname(name, surname);
+            var customer = await _customerRepository.GetCustomerByNameAndSurnameAsync(name, surname);
 
             var customerDTO = new CustomerDto
             {
@@ -33,7 +33,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return customerDTO;
         }
-        // 2 Method isn't async
+        
         public void CreateCustomer(CustomerDto createCustomer)
         {
             var customer = new Customer
@@ -47,10 +47,10 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _customerRepository.Save();
         }
-        // 3 Method isn't async
-        public void UpdateCustomer(UpdateCustomerDto updateCustomer)
+       
+        public async Task UpdateCustomerAsync(UpdateCustomerDto updateCustomer)
         {
-            var customer = _customerRepository.Get(updateCustomer.CustomerId);
+            var customer = await _customerRepository.GetAsync(updateCustomer.CustomerId);
 
             customer.Name = updateCustomer.Name;
             customer.Surname = updateCustomer.Surname;
@@ -58,7 +58,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _customerRepository.Save();
         }
-        // 4 +
+        
         public async Task<IList<SortedCustomerDTO>> GetSortedAsync(string sortBy)
         {
             var customers = await _customerRepository.GetAllAsync();
@@ -81,11 +81,9 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return sortedCustomers;
         }
-        // 4 +
+        
         private IList<SortedCustomerDTO> GetSortedCustomers(IList<SortedCustomerDTO> unsortedCustomers, string sortBy)
         {
-            // var sortedCustomers = new List<SortedCustomerDTO>();
-
             if (sortBy == "name")
             {
                 unsortedCustomers = unsortedCustomers.OrderBy(c => c.Name).ToList();

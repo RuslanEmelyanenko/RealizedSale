@@ -18,9 +18,9 @@ namespace NewProject_RealizedSale.Repositories
             Entities = dbContext.Set<T>();
         }
 
-        public T Get(int id)
+        public async Task<T> GetAsync(int id)
         {
-            return Entities.Find(id);
+            return await Entities.FindAsync(id);
         }
 
         public async Task<IList<T>> GetAllAsync()

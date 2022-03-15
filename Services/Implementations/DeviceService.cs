@@ -27,7 +27,7 @@ namespace NewProject_RealizedSale.Services.Implementations
             _memorySizeRepository = memorySizeRepository;
             _deviceTypeRepository = deviceTypeRepository;
         }
-        // 1 +
+        
         public async Task<IList<DeviceDropdownDto>> GetDeviceDropdownAsync() // Creating a dropdown list of devices.
         {
             var devices =  await _deviceRepository.GetAllAsync();
@@ -47,10 +47,10 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return devicesDropdown;
         }
-        // 2 Method isn't async
-        public DeviceDto GetDevice(string model) // Get Device By Models.
+        
+        public async Task<DeviceDto> GetDeviceAsync(string model) // Get Device By Models.
         {
-            var device = _deviceRepository.GetDevice(model);
+            var device = await _deviceRepository.GetDeviceAsync(model);
 
             var deviceDto = new DeviceDto()
             {
@@ -64,7 +64,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return deviceDto;
         }
-        // 3 +
+        
         public async Task<IList<DeviceDto>> GetAllDevicesAsync() // Get All Devices (Method Read)
         {
             var devices = await _deviceRepository.GetAllDevicesAsync();
@@ -87,12 +87,12 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return deviceDto;
         }
-        // 4 Method isn't async
-        public void CreateDevice(DeviceDto createDevice) // Create object.
+        
+        public async Task CreateDeviceAsync(DeviceDto createDevice) // Create object.
         {
-            var color = _colorRepository.GetByColorName(createDevice.Color);
-            var memorySize = _memorySizeRepository.GetByMemorySize(createDevice.MemorySize);
-            var deviceType = _deviceTypeRepository.GetByDeviceType(createDevice.DeviceType);
+            var color = await _colorRepository.GetByColorNameAsync(createDevice.Color);
+            var memorySize = await _memorySizeRepository.GetByMemorySizeAsync(createDevice.MemorySize);
+            var deviceType = await _deviceTypeRepository.GetByDeviceTypeAsync(createDevice.DeviceType);
 
             if (color == null)
             {
@@ -131,14 +131,14 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _deviceRepository.Save();
         }
-        // 5 Method isn't async
-        public void UpdateDevice(UpdateDto updateDevice)
+        
+        public async Task UpdateDeviceAsync(UpdateDto updateDevice)
         {
-            var color = _colorRepository.GetByColorName(updateDevice.Color);
-            var memorySize = _memorySizeRepository.GetByMemorySize(updateDevice.MemorySize);
-            var deviceType = _deviceTypeRepository.GetByDeviceType(updateDevice.DeviceType);
+            var color = await _colorRepository.GetByColorNameAsync(updateDevice.Color);
+            var memorySize = await _memorySizeRepository.GetByMemorySizeAsync(updateDevice.MemorySize);
+            var deviceType = await _deviceTypeRepository.GetByDeviceTypeAsync(updateDevice.DeviceType);
 
-            var device = _deviceRepository.Get(updateDevice.Id);
+            var device = await _deviceRepository.GetAsync(updateDevice.Id);
 
             if (color == null)
             {
@@ -173,9 +173,9 @@ namespace NewProject_RealizedSale.Services.Implementations
             _deviceRepository.Save();
         }
 
-        public void DeleteDevice(string model)
+        public async Task DeleteDeviceAsync(string model)
         {
-            var device = _deviceRepository.GetDevice(model);
+            var device = await _deviceRepository.GetDeviceAsync(model);
 
             if (device != null)
             {
@@ -184,7 +184,7 @@ namespace NewProject_RealizedSale.Services.Implementations
                 _deviceRepository.Save();
             }
         }
-        // 6 +
+        
         public async Task<IList<SortedDeviceDTO>> GetSortedAsync(string sortBy) // Sorting devices by: model, price and memory size.
         {
             var devices = await _deviceRepository.GetAllDevicesAsync();
@@ -204,12 +204,12 @@ namespace NewProject_RealizedSale.Services.Implementations
                 unsortedDevices.Add(unsortedDevice);
             }
 
-            var sortedDevices = await GetSortedDevicesAsync(unsortedDevices, sortBy);
+            var sortedDevices = GetSortedDevices(unsortedDevices, sortBy);
 
             return sortedDevices;
         }
 
-        private async Task<IList<SortedDeviceDTO>> GetSortedDevicesAsync(IList<SortedDeviceDTO> unsortedDevices, string sortBy)
+        private IList<SortedDeviceDTO> GetSortedDevices(IList<SortedDeviceDTO> unsortedDevices, string sortBy)
         {
             if (sortBy == "model")
             {
@@ -226,12 +226,12 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return unsortedDevices;
         }
-        // 7 +
+        
         public async Task AddRangeDevicesAsync(IList<DeviceDto> deviceDtos)
         {
             var devices = await _deviceRepository.GetAllDevicesAsync();
 
-            var newDevices = CreateDevices(deviceDtos);
+            var newDevices = await CreateDevicesAsync(deviceDtos);
 
             newDevices = newDevices.Except(devices, new DeviceEqualityComparer()).ToList();
 
@@ -239,18 +239,18 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _deviceRepository.Save();
         }
-        // 7 Method isn't async
-        private IList<Device> CreateDevices(IList<DeviceDto> deviceDtos)
+        
+        private async Task<IList<Device>> CreateDevicesAsync(IList<DeviceDto> deviceDtos)
         {
             var devices = new List<Device>();
 
             foreach (var deviceDto in deviceDtos)
             {
-                var deviceType = _deviceTypeRepository.GetByDeviceType(deviceDto.DeviceType);
-                var memorySize = _memorySizeRepository.GetByMemorySize(deviceDto.MemorySize);
-                var color = _colorRepository.GetByColorName(deviceDto.Color);
+                var deviceType = await _deviceTypeRepository.GetByDeviceTypeAsync(deviceDto.DeviceType);
+                var memorySize = await _memorySizeRepository.GetByMemorySizeAsync(deviceDto.MemorySize);
+                var color = await _colorRepository.GetByColorNameAsync(deviceDto.Color);
 
-                var deviceUpdate = _deviceRepository.Get(deviceDto.Id);
+                var deviceUpdate = _deviceRepository.GetAsync(deviceDto.Id);
 
                 if (color == null)
                 {

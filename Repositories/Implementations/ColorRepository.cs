@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class ColorRepository : BaseRepository<Color>
+    public class ColorRepository : BaseRepository<Color>, IColorRepository
     {
         private readonly SaleContext _dbContext;
 
@@ -13,9 +15,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public Color GetByColorName(string colorDevice)
+        public async Task<Color> GetByColorNameAsync(string colorDevice)
         {
-            var color = _dbContext.Colors.FirstOrDefault(c => c.ColorDevice == colorDevice);
+            var color = await _dbContext.Colors.FirstOrDefaultAsync(c => c.ColorDevice == colorDevice);
 
             return color;
         }

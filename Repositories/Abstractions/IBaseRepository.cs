@@ -5,7 +5,7 @@ namespace NewProject_RealizedSale.Repositories.Abstractions
 {
     public interface IBaseRepository<T> where T : class
     {
-        T Get(int id);
+        Task<T> GetAsync(int id);
         IList<T> GetAll();
         Task<IList<T>> GetAllAsync();
         void Create(T entity);

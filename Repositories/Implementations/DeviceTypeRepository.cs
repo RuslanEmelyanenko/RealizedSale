@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class DeviceTypeRepository : BaseRepository<DeviceType>
+    public class DeviceTypeRepository : BaseRepository<DeviceType>, IDeviceTypeRepository
     {
         private readonly SaleContext _dbContext;
 
@@ -13,9 +15,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public DeviceType GetByDeviceType(string deviceType)
+        public async Task<DeviceType> GetByDeviceTypeAsync(string deviceType)
         {
-            var type = _dbContext.DeviceTypes.FirstOrDefault(d => d.Type == deviceType);
+            var type = await _dbContext.DeviceTypes.FirstOrDefaultAsync(d => d.Type == deviceType);
 
             return type;
         }

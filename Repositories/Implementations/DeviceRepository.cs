@@ -3,10 +3,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class DeviceRepository : BaseRepository<Device>
+    public class DeviceRepository : BaseRepository<Device>, IDeviceRepository
     {
         private readonly SaleContext _dbContext;
         
@@ -16,9 +17,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public Device GetDevice(string model)
+        public async Task<Device> GetDeviceAsync(string model)
         {
-            var device = _dbContext.Devices.FirstOrDefault(d => d.Model == model);
+            var device = await _dbContext.Devices.FirstOrDefaultAsync(d => d.Model == model);
 
             return device;
         }

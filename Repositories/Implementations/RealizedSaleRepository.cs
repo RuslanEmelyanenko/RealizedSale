@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class RealizedSaleRepository : BaseRepository<RealizedSale>
+    public class RealizedSaleRepository : BaseRepository<RealizedSale>, IRealizedSaleRepository
     {
         private readonly SaleContext _dbContext;
 
@@ -17,9 +17,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public RealizedSale GetByRealizedSale(string date)
+        public async Task<RealizedSale> GetByRealizedSaleAsync(string date)
         {
-            var sale = _dbContext.RealizedSales.FirstOrDefault(r => r.Date == date);
+            var sale = await _dbContext.RealizedSales.FirstOrDefaultAsync(r => r.Date == date);
 
             return sale;
         }

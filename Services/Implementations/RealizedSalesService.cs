@@ -23,10 +23,10 @@ namespace NewProject_RealizedSale.Services.Implementations
             _deviceRepository = deviceRepository;
             _customerRepository = customerRepository;
         }
-        // 1 Method isn't async
-        public RealizedSaleDto GetRealizedSaleByDate(string date)
+       
+        public async Task<RealizedSaleDto> GetRealizedSaleByDateAsync(string date)
         {
-            var realizedSale = _realizedSaleRepository.GetByRealizedSale(date);
+            var realizedSale = await _realizedSaleRepository.GetByRealizedSaleAsync(date);
 
             var realizedSaleDto = new RealizedSaleDto
             {
@@ -42,7 +42,7 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return realizedSaleDto;
         }
-        // 2 +
+        
         public async Task<IList<RealizedSaleDto>> GetAllSalesAsync()
         {
             var realizedSales = await _realizedSaleRepository.GetAllRealizedSaleAsync();
@@ -67,11 +67,11 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             return realizedSaleDto;
         }
-        // 3 Method isn't async
-        public void CreateRealizedSale(RealizedSaleDto createRealizedSale)
+        
+        public async Task CreateRealizedSaleAsync(RealizedSaleDto createRealizedSale)
         {
-            var customer = _customerRepository.GetCustomerByNameAndSurname(createRealizedSale.CustomerName, createRealizedSale.CustomerSurname);
-            var device = _deviceRepository.GetDevice(createRealizedSale.DeviceModel);
+            var customer = await _customerRepository.GetCustomerByNameAndSurnameAsync(createRealizedSale.CustomerName, createRealizedSale.CustomerSurname);
+            var device = await _deviceRepository.GetDeviceAsync(createRealizedSale.DeviceModel);
 
             if (customer == null)
             {
@@ -96,10 +96,10 @@ namespace NewProject_RealizedSale.Services.Implementations
 
             _realizedSaleRepository.Save();
         }
-        // 4 Method isn't async
-        public void DeleteRealizedSale(string date)
+       
+        public async Task DeleteRealizedSaleAsync(string date)
         {
-            var dateSale = _realizedSaleRepository.GetByRealizedSale(date);
+            var dateSale = await _realizedSaleRepository.GetByRealizedSaleAsync(date);
 
             if (dateSale != null)
             {
@@ -108,8 +108,8 @@ namespace NewProject_RealizedSale.Services.Implementations
                 _realizedSaleRepository.Save();
             }
         }
-        // 5 +
-        public async Task<IList<CounterOfPurchasedDevicesDto>> GetNumberOfDevicesSoldByModel()
+        
+        public async Task<IList<CounterOfPurchasedDevicesDto>> GetNumberOfDevicesSoldByModelAsync()
         {
             var countRealizedSaleDevises = await _realizedSaleRepository.GetAllRealizedSaleAsync();
 

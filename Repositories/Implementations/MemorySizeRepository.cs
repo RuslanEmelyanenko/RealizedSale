@@ -1,9 +1,11 @@
-﻿using System.Linq;
+﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using NewProject_RealizedSale.Models;
+using NewProject_RealizedSale.Repositories.Abstractions;
 
 namespace NewProject_RealizedSale.Repositories
 {
-    public class MemorySizeRepository : BaseRepository<MemorySize>
+    public class MemorySizeRepository : BaseRepository<MemorySize>, IMemorySizeRepository
     {
         private readonly SaleContext _dbContext;
 
@@ -13,9 +15,9 @@ namespace NewProject_RealizedSale.Repositories
             _dbContext = dbContext;
         }
 
-        public MemorySize GetByMemorySize(int memorySize)
+        public async Task<MemorySize> GetByMemorySizeAsync(int memorySize)
         {
-            var memory = _dbContext.Memory.FirstOrDefault(m => m.MemorySizeDevice == memorySize);
+            var memory = await _dbContext.Memory.FirstOrDefaultAsync(m => m.MemorySizeDevice == memorySize);
 
             return memory;
         }
